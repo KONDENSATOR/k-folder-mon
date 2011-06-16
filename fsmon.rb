@@ -1,10 +1,13 @@
 #!/usr/bin/env ruby
 
 require 'helpers'
+require 'yaml'
 
-@folders  = ['~/CUSTOMER']
-@filters  = [/\.ds_store/, /\.git\//i]
-@user     = 'fredrik'
+settings = YAML::load(File.open(File.expand_path("~/.fsmon")))
+
+@folders  = settings['folders']
+@filters  = settings['filters']
+@user     = settings['user']
 
 fs_events_accumulated @folders, @filters do |folder, changes|
   change_str = changes.map { |change|

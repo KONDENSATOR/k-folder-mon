@@ -1,5 +1,6 @@
 def filter_event(folders, filters, line)
   folders = folders.map { |folder| File.expand_path folder }
+  filters = filters.map { |filter| /#{Regexp.quote(filter)}/ }
   match = /^\/\d+:(\d+):\d+:\d+(.+)/.match line
   event, file = match[1], match[2]
   

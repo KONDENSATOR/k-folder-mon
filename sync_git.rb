@@ -23,10 +23,10 @@ Dir.chdir folder
 puts %x{git add -A}
 
 # Commit my changes localy
-puts %x{git commit -m "#{files}"}
+puts %x{git commit -m "#{files.to_s}"}
 
 # Pull changes from server and merge
-puts %x{git pull origin master"}
+puts %x{git pull origin master}
 
 # Add any merge activities to stage
 puts %x{git add -A}
