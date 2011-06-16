@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
-require 'helpers'
+path = File.dirname(__FILE__)
+Dir.chdir path
+
+require 'helpers' #File.join(path, 'helpers')
 require 'yaml'
 
 settings = YAML::load(File.open(File.expand_path("~/.fsmon")))

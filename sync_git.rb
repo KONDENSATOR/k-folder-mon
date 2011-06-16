@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
+require 'real_growl'
+
 @event_types = {
   '-1' => 'FSE_INVALID',
   '0' => 'FSE_CREATE_FILE',
@@ -13,8 +16,12 @@
   '8' => 'FSE_CHOWN',
 }
 
+sync = RealGrowl::Application.new("Sync git")
+
 folder  = ARGV[0]
 files   = ARGV[1]
+
+icon = File.expand_path("./icon.png")
 
 # Enter directory
 Dir.chdir folder
@@ -26,7 +33,19 @@ puts %x{git add -A}
 puts %x{git commit -m "#{files.to_s}"}
 
 # Pull changes from server and merge
-puts %x{git pull origin master}
+pulled = %x{git pull origin master}
+
+m = /\d+ files changed, \d+ insertions\(\+\), \d+ deletions\(\-\)/.match(pulled)
+
+pull_notification = nil
+pull_notification = m.to_s if m
+
+sync.notify(
+  :title => folder,
+  :description => pull_notification,
+  :priority => 0,
+  :sticky => false,
+  :icon => icon) if pull_notification
 
 # Add any merge activities to stage
 puts %x{git add -A}
@@ -36,3 +55,7 @@ puts %x{git commit -m "merge"}
 
 # Push my changes and merges to server
 puts %x{git push origin master}
+
+result = %x{git status}
+
+sync.notify(:title => folder, :description => files.to_s, :priority => 0, :sticky => false, :icon => icon)
