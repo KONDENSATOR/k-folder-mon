@@ -16,10 +16,35 @@ require 'real_growl'
   '8' => 'FSE_CHOWN',
 }
 
+
+@event_types_simple = {
+  '-1' => 'Invalid',
+  '0' => 'Created',
+  '1' => 'Deleted',
+  '2' => 'Stat changed',
+  '3' => 'Renamed',
+  '4' => 'Modified',
+  '5' => 'Exchanged',
+  '6' => 'Finder info changed',
+  '7' => 'Created dir',
+  '8' => 'Changed owner',
+}
+
 sync = RealGrowl::Application.new("Sync git")
 
 folder  = ARGV[0]
-files   = ARGV[1]
+files   = ARGV[1].split(';')
+
+growl_folder = File.basename(folder)
+growl_msg = ""
+
+files.each do |file|
+  m = /(\d+)\s(.*)/.match(file)  
+  msg = "#{@event_types_simple[m[1]]} - #{m[2]}\n"
+  growl_msg += msg
+end
+
+puts growl_msg
 
 icon = File.expand_path("./icon.png")
 
@@ -41,7 +66,7 @@ pull_notification = nil
 pull_notification = m.to_s if m
 
 sync.notify(
-  :title => folder,
+  :title => growl_folder,
   :description => pull_notification,
   :priority => 0,
   :sticky => false,
@@ -58,4 +83,10 @@ puts %x{git push origin master}
 
 result = %x{git status}
 
-sync.notify(:title => folder, :description => files.to_s, :priority => 0, :sticky => false, :icon => icon)
+sync.notify(
+  :title => growl_folder, 
+  :description => growl_msg, 
+  :priority => 0, 
+  :sticky => false, 
+  :icon => icon)
+

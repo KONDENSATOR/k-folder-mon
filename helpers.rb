@@ -49,7 +49,7 @@ def fs_events_accumulated(folders, filters)
       events = queue[folder][:events]
       cmd, user = yield folder, events
       pid = fork {
-        %x{sudo -u #{user} #{cmd}}
+        puts %x{sudo -u #{user} #{cmd}}
       }
       Process.detach(pid)
       queue[folder] = {

@@ -16,5 +16,5 @@ loop do
   @folders.each do |folder|
     %x{sudo -u #{@user} ./fetch_git.rb '#{File.expand_path(folder)}'}
   end
-  sleep(60)
+  sleep(15)
 end
