@@ -1,7 +1,0 @@
-Utilizes fetool available in the application bundle from fseventer.
-
-http://fernlightning.com/doku.php?id=software:fseventer:start
-
-Extract fetool and add to the k-folder-mon.
-
-Obs: Needs to be run with sudo
