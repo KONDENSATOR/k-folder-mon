@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+path = File.dirname(__FILE__)
+Dir.chdir path
+
+puts %x{sudo ./fsmond.rb start}
+puts %x{sudo ./fsfetchd.rb start}

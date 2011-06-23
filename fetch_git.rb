@@ -1,11 +1,9 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'real_growl'
-
-sync = RealGrowl::Application.new("Sync git")
 
 folder = ARGV[0]
+growl_folder = File.basename(folder)
 
 icon = File.expand_path("./icon.png")
 
@@ -20,9 +18,11 @@ m = /\d+ files changed, \d+ insertions\(\+\), \d+ deletions\(\-\)/.match(pulled)
 pull_notification = nil
 pull_notification = m.to_s if m
 
-sync.notify(
-  :title => folder,
-  :description => pull_notification,
-  :priority => 0,
-  :sticky => false,
-  :icon => icon) if pull_notification
+# sync.notify(
+#   :title => folder,
+#   :description => pull_notification,
+#   :priority => 0,
+#   :sticky => false,
+#   :icon => icon) if pull_notification
+
+%x{/opt/local/bin/realgrowl -t "#{growl_folder}" -d "#{pull_notification}" -a "Sync git" -i "#{icon}"} if pull_notification

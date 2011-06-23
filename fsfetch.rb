@@ -3,7 +3,7 @@
 path = File.dirname(__FILE__)
 Dir.chdir path
 
-require 'helpers'
+require File.join(path, 'helpers')
 require 'yaml'
 
 settings = YAML::load(File.open(File.expand_path("~/.fsmon")))
