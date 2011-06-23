@@ -1,6 +1,13 @@
 #!/usr/bin/env ruby
+require 'yaml'
+
+settings = YAML::load(File.open(File.expand_path("~/.fsmon")))
+
+@user = settings['user']
+@psw  = settings['psw']
+
 path = File.dirname(__FILE__)
 Dir.chdir path
 
-puts %x{sudo ./fsmond.rb start}
-puts %x{sudo ./fsfetchd.rb start}
+puts %x{echo #{@pwd} | sudo -S ./fsmond.rb start}
+puts %x{./fsfetchd.rb start}

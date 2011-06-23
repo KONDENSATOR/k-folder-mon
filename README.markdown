@@ -27,11 +27,12 @@ Configuration
 The configuration is a simple hidden file within the root of your home directory called .fsmon. It should look something like this.
 
     user: fredrik
+    psw:  mypassword  # Optional - I know it's not secure, but this is so that you can put the fsstartall script in startup items.
     folders:
       - ~/shared_folder
       - ~/another_shared_folder
     filters:
-      - .ds_store
+      - .DS_Store
       - .git
     
 The folders section is where you put your local reference to your local copies of the repositories that you want automatically synchronize.
@@ -44,7 +45,10 @@ From within the k-folder-mon directory, just run
     sudo ./fsmond start
     ./fsfetchd start
 
-Todo
-====
+You can make the deamons start at boot if you add the psw parameter in the configuration. If you do, then you can enter 
 
-Make daemon start at login.
+ * System Preferences -> Accounts -> Login Items 
+
+Here you can add the fsstartall file. 
+
+Thats it.
