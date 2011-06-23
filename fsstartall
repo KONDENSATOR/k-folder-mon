@@ -7,7 +7,9 @@ settings = YAML::load(File.open(File.expand_path("~/.fsmon")))
 @psw  = settings['psw']
 
 path = File.dirname(__FILE__)
+
 Dir.chdir path
 
-puts %x{echo #{@pwd} | sudo -S ./fsmond.rb start}
-puts %x{./fsfetchd.rb start}
+%x{echo #{@pwd} | sudo -S ./fsmond.rb start} if @psw
+%x{sudo ./fsmond.rb start} if not @psw
+%x{./fsfetchd.rb start}

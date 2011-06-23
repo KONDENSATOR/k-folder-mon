@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+require 'yaml'
+
+path = File.dirname(__FILE__)
+Dir.chdir path
+
+puts %x{sudo ./fsmond.rb start}
+puts %x{./fsfetchd.rb start}
